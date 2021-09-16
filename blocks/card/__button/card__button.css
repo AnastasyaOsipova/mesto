@@ -7,5 +7,5 @@
 }
 
 .card__button:focus{
-    background-image: url("../../../images/like-black.svg")
+    background-image: url("../../../images/like-black.svg");
 }
