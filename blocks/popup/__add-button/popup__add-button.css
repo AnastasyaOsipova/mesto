@@ -8,6 +8,12 @@
     line-height: 1.2;
     font-weight: 400;
     font-family: 'Inter', Arial, Helvetica, sans-serif;
+    border: none;
+}
+
+.popup__add-button:hover{
+    opacity: 0.8;
+    cursor: pointer;
 }
 
 @media screen and (max-width: 450px){

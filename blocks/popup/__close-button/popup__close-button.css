@@ -3,20 +3,21 @@
     width: 32px;
     height: 32px;
     border: none;
-    background-color:rgba(0, 0, 0, 0.5);
-    position: relative;
-    top: -68px;
-    left: 238px;
+    position: absolute;
+    top: -38px;
+    left: 438px;
+    background-color: transparent;
+    
     
 }
 
-@media screen and (max-width: 450px){
+@media screen and (max-width: 550px){
     .popup__close-button{
         width: 20px;
         height: 20px;
         background-size: contain;
-        top: -36px;
-        left: 131px;      
+        top: -30px;
+        left: 262px;      
     }
    
 }
