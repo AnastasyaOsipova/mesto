@@ -6,7 +6,8 @@
 @media screen and (max-width: 550px){
     .profile__text{
         text-align: center;
-        margin-top: 22.2px;
+        margin: 22.2px auto 0;
+       
     }
     
 }

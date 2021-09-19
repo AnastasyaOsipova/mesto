@@ -7,6 +7,8 @@
 @media screen and (max-width: 550px){
     .profile__info{
         flex-direction: column;
+        justify-content: center;
+        margin-bottom: 19px;
     }
     
 }
