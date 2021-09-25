@@ -10,7 +10,7 @@
 </head>
 <body>
     <div class="page">
-        <div class="popup">
+        <div class="popup popup_type_edit-profile">
             <div class="popup__container">
                 <button type="button" class="popup__close-button button"></button>
                 <form id="1" class="popup__form" name="profile_edit_form">
@@ -21,6 +21,24 @@
                 </form>
             </div>
         </div>
+        <div class="popup popup_type_add-card">
+            <div class="popup__container">
+                <button type="button" class="popup__close-button button"></button>
+                <form id="2" class="popup__form" name="profile_card_form">
+                    <h2 class="popup__title">Новое место</h2>
+                    <input type="text" value="" name="place" placeholder="Название" class="popup__input popup__input_type_place">
+                    <input type="text" value="" name="image" placeholder="Ссылка на картинку" class="popup__input popup__input_type_image">
+                    <button type="submit" class="popup__add-button">Сохранить</button>
+                </form>
+            </div>
+        </div>
+        <div class="popup popup_type_image">
+            <div class="popup__container_type_image">
+                <button type="button" class="popup__close-button button"></button>
+                <img src="#" alt="изображение" class="popup__image">
+            </div>
+        </div>
+        
         <header class="header">
             <img src="./images/logo.svg" alt="Место" class="header__logo">
         </header>
@@ -37,8 +55,9 @@
                 <button type="button" class="profile__add-button button"></button>
             </section>
             <section class="photo-grid">
-                <div class="card">
+               <!-- <div class="card">
                     <img src="./images/Karachaevsk.jpg" alt=" Карачаевск" class="card__image">
+                    <button type="button" class="card__delete-button button"></button>
                     <div class="card__description">
                         <h2 class="card__title">Карачаевск</h2>
                         <button type="button" class="card__button"></button>
@@ -78,13 +97,23 @@
                         <h2 class="card__title">Карачаево-Черкессия</h2>
                         <button type="button" class="card__button"></button>
                     </div>
-                </div>
+                </div>!-->
             </section>
         </main>
         <footer class="footer">
             <p class="footer__copyright">&#169; 2020 Mesto Russia</p>
         </footer>
     </div>
-    <script src="./scripts/index.js"></script>
-</body>
+    <template id="card-template">
+        <div class="card">
+            <img alt="изображение" class="card__image">
+            <button type="button" class="card__delete-button button"></button>
+            <div class="card__description">
+                <h2 class="card__title"></h2>
+                <button type="button" class="card__like-button"></button>
+            </div>
+        </div>
+    </template>
+    <script src="scripts/index.js"></script>    
+    </body>
 </html>
