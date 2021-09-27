@@ -1,8 +1,37 @@
+const initialCards = [
+    {
+      name: 'Архыз',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+    },
+    {
+      name: 'Челябинская область',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+    },
+    {
+      name: 'Иваново',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+    },
+    {
+      name: 'Камчатка',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+    },
+    {
+      name: 'Холмогорский район',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+    },
+    {
+      name: 'Байкал',
+      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+    }
+  ];
+
+  
 const popup = document.querySelector('.popup');
 const popupEdit = document.querySelector('.popup_type_edit-profile');
 const popupAdd = document.querySelector('.popup_type_add-card');
 const popupImage = document.querySelector('.popup_type_image');
 const popupImagePic = popupImage.querySelector('.popup__image');
+const popupSubtitle = popupImage.querySelector('.popup__subtitle');
 const addButton = document.querySelector('.profile__add-button')
 const editButton = document.querySelector('.profile__edit-button');
 const photoGrid = document.querySelector('.photo-grid');
@@ -68,6 +97,7 @@ function createCard(data){
     cardPicture.addEventListener('click', function(evt){
         console.log(evt.currentTarget);
         popupImagePic.src = evt.target.src;
+        popupSubtitle.textContent = evt.target.closest('.card').textContent;
         openPopup(popupImage);
         let popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
         popupImageCloseBtn.addEventListener('click', function(){
@@ -88,9 +118,14 @@ function cardSubmit(evt){
 function clearInput(){
     cardName.value = "";
     cardImage.value = "";
-}
+};
 
+initialCards.forEach(function(item){
+    cardImage.value = item.link;
+    cardName.value = item.name;
+    createCard(item)
 
+  });
 
 
 editButton.addEventListener('click', function() {
