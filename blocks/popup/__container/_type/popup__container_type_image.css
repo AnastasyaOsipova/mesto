@@ -1,11 +1,13 @@
 .popup__container_type_image{
     position: relative;
-    width: 100%;
-    max-width: 75vw;
     background-color: transparent;
+    display: flex;
+    justify-content: center;;
     padding: 0;
     border: none;
     box-shadow: none;
+    width: fit-content;
+    min-width: fit-content;
        
 }
 

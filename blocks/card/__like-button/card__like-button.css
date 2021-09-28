@@ -6,9 +6,6 @@
     background-color: #FFFFFF;
 }
 
-.card__button:focus{
-    background-image: url("../../../images/like-black.svg");
-}
 
 .card__like-button:hover{
     opacity: 0.5;

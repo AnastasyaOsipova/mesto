@@ -77,6 +77,12 @@ function createCard(data){
     const cardTemplate = document.querySelector('#card-template').content;
     const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
 
+    const cardImage = cardElement.querySelector('.card__image');
+    cardImage.src = data.link;
+    cardImage.alt = data.name;
+    const cardName = cardElement.querySelector('.card__title');
+    cardName.textContent = data.name;
+
        
     const cardDeleteBtn = cardElement.querySelector('.card__delete-button');
     cardDeleteBtn.addEventListener('click', function(evt){
@@ -101,15 +107,16 @@ function createCard(data){
     
 };
 
-let popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
+const popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
         popupImageCloseBtn.addEventListener('click', function(){
         closePopup(popupImage) });
 
 function submitCard(evt){
     evt.preventDefault();
-    const newCard = createCard();
-    newCard.querySelector('.card__image').src = cardImage.value;
-    newCard.querySelector('.card__title').textContent = cardName.value;
+    const newCard = createCard({
+        link: cardImage.value,
+        name: cardName.value
+    });
     photoGrid.prepend(newCard); 
     closePopup(popupAdd)
 };
@@ -121,8 +128,6 @@ function clearInput(){
 
 initialCards.forEach(function(item){
     const newCard = createCard(item);
-    newCard.querySelector('.card__image').src = item.link;
-    newCard.querySelector('.card__title').textContent = item.name;
     photoGrid.prepend(newCard); 
 
   });
