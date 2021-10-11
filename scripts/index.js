@@ -34,6 +34,10 @@ const popupSubtitle = popupImage.querySelector('.popup__subtitle');
 const addButton = document.querySelector('.profile__add-button')
 const editButton = document.querySelector('.profile__edit-button');
 const photoGrid = document.querySelector('.photo-grid');
+const addSubmitButton = popupAdd.querySelector('.popup__add-button');
+const editSubmitButton = popupEdit.querySelector('.popup__add-button');
+
+
 
 const cardName = popupAdd.querySelector('.popup__input_type_place');
 const cardImage = popupAdd.querySelector('.popup__input_type_image');
@@ -72,6 +76,15 @@ function submitEditForm (evt) {
     closePopup(popupEdit)
 };
 
+function clickOverlay(evt){
+    if (evt.target.classList.contains('popup')) {
+        evt.target.classList.remove('popup_opened')
+    }
+};
+
+function toggleSubmitButton(button) {
+    button.classList.add('button_inactive')
+};
 
 function createCard(data){
     const cardTemplate = document.querySelector('#card-template').content;
@@ -107,9 +120,14 @@ function createCard(data){
     
 };
 
+
 const popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
         popupImageCloseBtn.addEventListener('click', function(){
         closePopup(popupImage) });
+
+
+popupImage.addEventListener('click', clickOverlay);
+        
 
 function submitCard(evt){
     evt.preventDefault();
@@ -136,6 +154,7 @@ initialCards.forEach(function(item){
 editButton.addEventListener('click', function() {
     setInputValue()
     openPopup(popupEdit)
+    toggleSubmitButton(editSubmitButton)
 });
 
 const popupEditCloseBtn = popupEdit.querySelector('.popup__close-button');
@@ -149,15 +168,25 @@ popupForm.addEventListener('submit', submitEditForm);
 addButton.addEventListener('click', function(){
     clearInput()
     openPopup(popupAdd)
-})
+    toggleSubmitButton(addSubmitButton)
+});
 
 const popupAddCloseBtn = popupAdd.querySelector('.popup__close-button');
 popupAddCloseBtn.addEventListener('click', function(){
     closePopup(popupAdd)
 });
 
+popupAdd.addEventListener('click', clickOverlay);
+popupEdit.addEventListener('click', clickOverlay);
+
+
 const popupAddForm = popupAdd.querySelector('.popup__form');
 popupAddForm.addEventListener('submit', submitCard);
 
-
-
+document.addEventListener('keydown', function(evt){
+    if (evt.key === 'Escape') {
+        closePopup(popupEdit)
+        closePopup(popupAdd);
+        closePopup(popupImage)
+    }
+});
