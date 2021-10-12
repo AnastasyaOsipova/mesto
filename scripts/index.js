@@ -78,7 +78,7 @@ function submitEditForm (evt) {
 
 function clickOverlay(evt){
     if (evt.target.classList.contains('popup')) {
-        evt.target.classList.remove('popup_opened')
+        closePopup(evt.target)
     }
 };
 
@@ -107,8 +107,8 @@ function createCard(data){
         evt.target.classList.toggle('card__like-button_active')
     });
 
-    const cardPicture = cardElement.querySelector('.card__image')
-    cardPicture.addEventListener('click', function(evt){
+
+    cardImage.addEventListener('click', function(evt){
         console.log(evt.currentTarget);
         popupImagePic.src = data.link; 
         popupSubtitle.textContent = data.name; 
