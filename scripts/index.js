@@ -1,3 +1,6 @@
+import {Card} from './card.js';
+import {FormValidator, validationConfig} from './validate.js'
+
 const initialCards = [
     {
       name: 'Архыз',
@@ -52,7 +55,7 @@ const profileJob = document.querySelector('.profile__description');
 const popupForm = popupEdit.querySelector('.popup__form');
 
 
-function openPopup(popup){
+export default function openPopup(popup){
     popup.classList.add('popup_opened');
     document.addEventListener('keydown', closeByEscape); 
 };
@@ -95,41 +98,6 @@ function toggleSubmitButton(button) {
     button.classList.add('button_inactive')
 };
 
-function createCard(data){
-    const cardTemplate = document.querySelector('#card-template').content;
-    const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
-    const cardImage = cardElement.querySelector('.card__image');
-    cardImage.src = data.link;
-    cardImage.alt = data.name;
-    const cardName = cardElement.querySelector('.card__title');
-    cardName.textContent = data.name;
-
-       
-    const cardDeleteBtn = cardElement.querySelector('.card__delete-button');
-    cardDeleteBtn.addEventListener('click', function(evt){
-        evt.target.closest(".card").remove()
-    });
-
-    const cardLikeBtn = cardElement.querySelector('.card__like-button');
-    cardLikeBtn.addEventListener('click', function(evt){
-        evt.target.classList.toggle('card__like-button_active')
-    });
-
-
-    cardImage.addEventListener('click', function(evt){
-        console.log(evt.currentTarget);
-        popupImagePic.src = data.link; 
-        popupSubtitle.textContent = data.name; 
-        openPopup(popupImage);
-        });
-               
-    return cardElement
-
-    
-};
-
-
 const popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
         popupImageCloseBtn.addEventListener('click', function(){
         closePopup(popupImage) });
@@ -140,11 +108,11 @@ popupImage.addEventListener('click', clickOverlay);
 
 function submitCard(evt){
     evt.preventDefault();
-    const newCard = createCard({
+    const cardElement = new Card({
         link: cardImage.value,
         name: cardName.value
-    });
-    photoGrid.prepend(newCard); 
+    }).generateCard();
+    photoGrid.prepend(cardElement); 
     closePopup(popupAdd)
 };
 
@@ -154,8 +122,8 @@ function clearInput(){
 };
 
 initialCards.forEach(function(item){
-    const newCard = createCard(item);
-    photoGrid.prepend(newCard); 
+    const cardElement = new Card(item).generateCard();
+    photoGrid.prepend(cardElement); 
 
   });
 
@@ -191,4 +159,10 @@ popupEdit.addEventListener('click', clickOverlay);
 
 const popupAddForm = popupAdd.querySelector('.popup__form');
 popupAddForm.addEventListener('submit', submitCard);
+
+const validationFormAdd = new FormValidator(validationConfig, '.popup__form_add').enableValidation();
+
+const validationFormEdit = new FormValidator(validationConfig, '.popup__form_edit').enableValidation();
+
+export {popupImagePic, popupSubtitle, popupImage}
 
