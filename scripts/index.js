@@ -1,5 +1,5 @@
-import {Card} from './card.js';
-import {FormValidator, validationConfig} from './validate.js'
+import {Card} from './Card.js';
+import {FormValidator, validationConfig} from './Validate.js'
 
 const initialCards = [
     {
@@ -41,6 +41,8 @@ const addSubmitButton = popupAdd.querySelector('.popup__add-button');
 const editSubmitButton = popupEdit.querySelector('.popup__add-button');
 
 
+const validationFormAdd = new FormValidator(validationConfig, '.popup__form_add');
+const validationFormEdit = new FormValidator(validationConfig, '.popup__form_edit');
 
 const cardName = popupAdd.querySelector('.popup__input_type_place');
 const cardImage = popupAdd.querySelector('.popup__input_type_image');
@@ -94,9 +96,6 @@ function closeByEscape(evt){
     }
 };
 
-function toggleSubmitButton(button) {
-    button.classList.add('button_inactive')
-};
 
 const popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
         popupImageCloseBtn.addEventListener('click', function(){
@@ -104,15 +103,19 @@ const popupImageCloseBtn = popupImage.querySelector('.popup__close-button');
 
 
 popupImage.addEventListener('click', clickOverlay);
+
+function createCard(data){
+    const cardElement = new Card(data, '#card-template').generateCard()
+    return cardElement
+};
         
 
 function submitCard(evt){
     evt.preventDefault();
-    const cardElement = new Card({
+    photoGrid.prepend(createCard({
         link: cardImage.value,
         name: cardName.value
-    }).generateCard();
-    photoGrid.prepend(cardElement); 
+        },)); 
     closePopup(popupAdd)
 };
 
@@ -122,8 +125,7 @@ function clearInput(){
 };
 
 initialCards.forEach(function(item){
-    const cardElement = new Card(item).generateCard();
-    photoGrid.prepend(cardElement); 
+    photoGrid.prepend(createCard(item)); 
 
   });
 
@@ -131,27 +133,29 @@ initialCards.forEach(function(item){
 editButton.addEventListener('click', function() {
     setInputValue()
     openPopup(popupEdit)
-    toggleSubmitButton(editSubmitButton)
+    validationFormEdit.resetValidation()
+    
 });
 
-const popupEditCloseBtn = popupEdit.querySelector('.popup__close-button');
-popupEditCloseBtn.addEventListener('click', function(){
-    closePopup(popupEdit)
-});
+const popupEditCloseBtn = popupEdit.querySelector('.popup__close-button'); 
 
+popupEditCloseBtn.addEventListener('click', function(){ 
+    closePopup(popupEdit) 
+}); 
 
 popupForm.addEventListener('submit', submitEditForm);
 
 addButton.addEventListener('click', function(){
     clearInput()
     openPopup(popupAdd)
-    toggleSubmitButton(addSubmitButton)
+    validationFormAdd.resetValidation()
 });
 
-const popupAddCloseBtn = popupAdd.querySelector('.popup__close-button');
-popupAddCloseBtn.addEventListener('click', function(){
-    closePopup(popupAdd)
-});
+const popupAddCloseBtn = popupAdd.querySelector('.popup__close-button'); 
+
+popupAddCloseBtn.addEventListener('click', function(){ 
+    closePopup(popupAdd) 
+}); 
 
 popupAdd.addEventListener('click', clickOverlay);
 popupEdit.addEventListener('click', clickOverlay);
@@ -160,9 +164,10 @@ popupEdit.addEventListener('click', clickOverlay);
 const popupAddForm = popupAdd.querySelector('.popup__form');
 popupAddForm.addEventListener('submit', submitCard);
 
-const validationFormAdd = new FormValidator(validationConfig, '.popup__form_add').enableValidation();
 
-const validationFormEdit = new FormValidator(validationConfig, '.popup__form_edit').enableValidation();
+validationFormAdd.enableValidation();
+validationFormEdit.enableValidation();
+
 
 export {popupImagePic, popupSubtitle, popupImage}
 
