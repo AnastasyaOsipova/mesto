@@ -1,11 +1,9 @@
-import {popupImagePic, popupSubtitle, popupImage} from './index.js';
-import openPopup from './index.js';
-
-class Card{
-    constructor(data, cardSelector){
+export default class Card{
+    constructor(data, cardSelector, handleCardClick){
     this._title = data.name;
     this._image = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
     
     
     }
@@ -37,7 +35,7 @@ class Card{
       _zoomPicture() {
             popupImagePic.src = this._image; 
             popupSubtitle.textContent = this._title; 
-            openPopup(popupImage);
+            //openPopup(popupImage);
             }
 
        _setEventListeners() {
@@ -49,10 +47,9 @@ class Card{
         });
 
         this._element.querySelector('.card__image').addEventListener('click', () => {
-            this._zoomPicture();
+            this._handleCardClick(this._image, this._title);
         });
     }
 
 }
 
-export {Card}
