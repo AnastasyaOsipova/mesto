@@ -5,10 +5,10 @@ export default class UserInfo{
     }
 
     getUserInfo(){
-        const info = [{
+        const info = {
             username:  this.name.textContent,
             job: this.job.textContent
-        }];
+        };
         return info
     }
 

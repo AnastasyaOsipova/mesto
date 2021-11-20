@@ -1,4 +1,4 @@
-import {popupImagePic, popupSubtitle} from './constants.js';
+import {popupImagePic, popupSubtitle} from '../utils/constants.js';
 import Popup from './Popup.js';
 
 
