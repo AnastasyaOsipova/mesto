@@ -7,6 +7,10 @@
     border-radius: 10px;
     padding-bottom: 34px;
     padding-top: 37px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
         
 }
 

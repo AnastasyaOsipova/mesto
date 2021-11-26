@@ -3,4 +3,11 @@
     height: 120px;
     border-radius: 60px;
     object-fit: cover;
+    opacity: 1;
+    
+}
+
+.profile__avatar:hover{
+    cursor: pointer;
+    opacity: 0.2;
 }
