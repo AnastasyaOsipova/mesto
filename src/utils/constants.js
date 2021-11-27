@@ -15,4 +15,4 @@ export const jobInput = popupEdit.querySelector('.popup__input_type_description'
 export const profileName = document.querySelector('.profile__name');
 export const profileJob = document.querySelector('.profile__description');
 export const avatar = document.querySelector('.profile__avatar');
-export const avatarEditButton = document.querySelector('.profile__avatar_edit-icon')
+export const avatarEditButton = document.querySelector('.profile__avatar-edit-icon')

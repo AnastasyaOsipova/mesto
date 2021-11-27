@@ -89,7 +89,7 @@ const defaultFormValue = new UserInfo('.profile__name', '.profile__description')
 const popupImage = new PopupWithImage('.popup_type_image');
 popupImage.setEventListeners();
 
-const deletePopup = new PopupWithSubmit('.popup_type_delete_card');
+const deletePopup = new PopupWithSubmit('.popup_type_delete-card');
 
 
 function zoomPicture (link, name){

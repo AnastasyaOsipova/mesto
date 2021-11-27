@@ -38,7 +38,7 @@
 @import url(../blocks/popup/__input/_type/popup__input_type_error.css);
 @import url(../blocks/button/_inactive/button_inactive.css);
 @import url(../blocks/popup/__input-container/popup__input-container.css);
-@import url(../blocks/profile/__avatar/_edit-icon/profile__avatar_edit_icon.css);
+@import url(../blocks/profile/__avatar-edit-icon/profile__avatar-edit-icon.css);
 @import url(../blocks/card/card__like/card__like.css);
 @import url(../blocks/card/__like-counter/card__like-counter.css);
 @import url(../blocks/popup/__add-button/_type/popup__add-button_type_delete.css);
