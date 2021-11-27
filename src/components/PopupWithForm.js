@@ -23,10 +23,19 @@ export default class PopupWithForm extends Popup{
         super.close()
     }
 
+    updateButtonText(){
+        this._submitButton.textContent = "Сохранение..."
+    }
+
+    turnBackButtonText(){
+        this._submitButton.textContent = "Сохранить"
+    }
+
     setEventListeners(){
         this._form.addEventListener('submit', ()=>{
+            this.updateButtonText();
             this._formSubmitHandler(this._getInputValues());
-            this.close()
+            
 
         })
         super.setEventListeners()

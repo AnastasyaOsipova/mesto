@@ -7,9 +7,8 @@ import {
     photoGrid,
     nameInput,
     jobInput,
-    avatar,
-    popupSubtitle
-    
+    avatarEditButton,
+      
     
 } from '../utils/constants.js';
 import PopupWithForm from '../components/PopupWithForm.js';
@@ -98,9 +97,6 @@ function zoomPicture (link, name){
     
 }
 
-function deleteCard(){
-    console.log(card)
-}
 
 deletePopup.setEventListeners();
 
@@ -109,12 +105,13 @@ function handleDeleteCard(card){
     deletePopup.open();
     deletePopup.handleSubmit(() =>{
         cardApi.deleteCard(card.id).
-        then(() =>{card.deleteCard()})
+        then(() =>{card.deleteCard(card)})
+        .then(() =>deletePopup.close()).
+        finally(() =>deletePopup.turnBackButtonText())
+        
         
     })
         
-        console.log(cardApi.deleteCard(card.id))
-
 }
 
 function handleLikeClick(card){
@@ -139,7 +136,8 @@ function createCard(data) {
 
 function saveNewCard(data) {
     cardApi.addCard(data).
-    then(data => {photoGrid.prepend(createCard(data))})
+    then(data => {photoGrid.prepend(createCard(data))}).
+    finally(() => {popupAdd.close()})
 };
 
 
@@ -152,7 +150,8 @@ function updateUserInfo(data){
     userApi.updateUserInfo(data).
     then(data =>{
         setUserInfo(data)
-})
+}).
+finally(() => {popupEdit.close()})
 }
 
 function updateFormValue(){
@@ -170,7 +169,8 @@ function updateAvatar(data){
     avatarApi.updateAvatar(data).
     then(data =>{
         setAvatar(data)
-})
+}).
+finally(() => {popupEditAvatar.close()})
 }
 
 function setInputValue({username, job}){
@@ -183,6 +183,7 @@ function setInputValue({username, job}){
 const popupEdit = new PopupWithForm('.popup_type_edit-profile', updateUserInfo);
 
 editButton.addEventListener('click', () =>{
+    popupEdit.turnBackButtonText();
     setInputValue(updateFormValue())
     popupEdit.open();
     validationFormEdit.resetValidation()
@@ -193,6 +194,7 @@ popupEdit.setEventListeners();
 const popupAdd = new PopupWithForm('.popup_type_add-card', saveNewCard);
 
 addButton.addEventListener('click', () =>{
+    popupEdit.turnBackButtonText();
     popupAdd.open();
     validationFormAdd.resetValidation()
 });
@@ -201,7 +203,8 @@ popupAdd.setEventListeners();
 
 const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', updateAvatar);
 
-avatar.addEventListener('click', () =>{
+avatarEditButton.addEventListener('click', () =>{
+    popupEdit.turnBackButtonText();
     popupEditAvatar.open();
     validationFormEditAvatar.resetValidation();
 });

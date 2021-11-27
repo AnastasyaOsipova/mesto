@@ -3,6 +3,7 @@ export default class PopupWithSubmit extends Popup{
     constructor(popupSelector){
         super(popupSelector);
         this._form = document.querySelector('.popup__form_submit');
+        this._submitButton = this._popup.querySelector('.popup__add-button');
         this._submitHandler = null
     }
 
@@ -10,10 +11,19 @@ export default class PopupWithSubmit extends Popup{
         this._submitHandler = handler
     }
 
+    updateButtonText(){
+        this._submitButton.textContent = "Удаление..."
+    }
+
+    turnBackButtonText(){
+        this._submitButton.textContent = "Да"
+    }
+
     setEventListeners(){
         super.setEventListeners();
         this._form.addEventListener('submit', (evt) =>{
-            evt.preventDefault()
+            evt.preventDefault();
+            this.updateButtonText();
             this._submitHandler()})
     }
 
