@@ -47,7 +47,11 @@ then(data =>{
 .then(() =>{api.getInitialCards().
 then(data => {
     defaultCards.renderItems(data)
-})})
+})
+.catch((err) => {
+    console.log(err);
+  })
+})
 .catch((err) => {
     console.log(err); 
   }); 
