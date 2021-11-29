@@ -47,10 +47,12 @@ const validationConfig = {
     
     _toggleButton (inputList)  {
         if(this._findInvalidInput(inputList)){
-            this._submitButton.classList.add(this._config.inactiveButtonClass)
+            this._submitButton.classList.add(this._config.inactiveButtonClass);
+            this._submitButton.disabled = true 
         }
         else{
-            this._submitButton.classList.remove(this._config.inactiveButtonClass)
+            this._submitButton.classList.remove(this._config.inactiveButtonClass);
+            this._submitButton.disabled = false
         }
     };
     
@@ -76,7 +78,7 @@ const validationConfig = {
       }
 
     resetValidation() {
-        this._submitButton.classList.add(this._config.inactiveButtonClass);
+        this._toggleButton();
         this._inputList.forEach((inputElement) => {
         this._hideError(inputElement)
         });

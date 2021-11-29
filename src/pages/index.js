@@ -1,10 +1,9 @@
 import './index.css';
 import Card from '../components/Card.js';
-import {FormValidator, validationConfig} from '../components/Validate.js';
+import {FormValidator, validationConfig} from '../components/FormValidator.js';
 import {
     addButton,
     editButton,
-    photoGrid,
     nameInput,
     jobInput,
     avatarEditButton,
@@ -24,63 +23,34 @@ const validationFormAdd = new FormValidator(validationConfig, '.popup__form_add'
 const validationFormEdit = new FormValidator(validationConfig, '.popup__form_edit');
 const validationFormEditAvatar = new FormValidator(validationConfig, '.popup__form_edit-avatar');
 
+const defaultCards = new Section({renderer: (item) =>{
+    defaultCards.setItem(createCard(item))}} ,'.photo-grid')
 const newInfo = new UserInfo('.profile__name', '.profile__description', '.profile__avatar');
 
-const userApi = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-30/users/me/',
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-30/',
     headers: {
         authorization: "6c6307bf-f204-483f-a472-5319b4c7128b",
         "Content-Type": "application/json"
     }
 })
-
-const avatarApi = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-30/users/me/avatar',
-    headers: {
-        authorization: "6c6307bf-f204-483f-a472-5319b4c7128b",
-        "Content-Type": "application/json"
-    }
-})
-
-const cardApi = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-30/cards/',
-    headers: {
-        authorization: "6c6307bf-f204-483f-a472-5319b4c7128b",
-        "Content-Type": "application/json"
-    }
-})
-
-const likeApi = new Api({
-    url: 'https://mesto.nomoreparties.co/v1/cohort-30/cards/likes',
-    headers: {
-        authorization: "6c6307bf-f204-483f-a472-5319b4c7128b",
-        "Content-Type": "application/json"
-    }
-})
-
 
 let userId = null;
 
 
-const user = userApi.getUserInfoApi().
+const user = api.getUserInfoApi().
 then(data =>{
     userId = data._id;
     setUserInfo(data);
+    setAvatar(data);
 })
-.then(cardApi.getInitialCards().
+.then(() =>{api.getInitialCards().
 then(data => {
-    const defaultCards = new Section({items: data, renderer: (item) =>{
-    defaultCards.setItem(createCard(item));}}
-    , '.photo-grid');
-    defaultCards.renderItems();
-    
-}));
-
-
-let userAvatar = userApi.getUserInfoApi()
-.then(data =>{
-    setAvatar(data)
-})
+    defaultCards.renderItems(data)
+})})
+.catch((err) => {
+    console.log(err); 
+  }); 
 
 
 const defaultFormValue = new UserInfo('.profile__name', '.profile__description');
@@ -104,10 +74,13 @@ function handleDeleteCard(card){
     
     deletePopup.open();
     deletePopup.handleSubmit(() =>{
-        cardApi.deleteCard(card.id).
+        api.deleteCard(card.id).
         then(() =>{card.deleteCard(card)})
-        .then(() =>deletePopup.close()).
-        finally(() =>deletePopup.turnBackButtonText())
+        .then(() =>deletePopup.close())
+        .catch((err) => {
+            console.log(err); 
+          })
+        .finally(() =>deletePopup.turnBackButtonText())
         
         
     })
@@ -117,14 +90,20 @@ function handleDeleteCard(card){
 function handleLikeClick(card){
     if(card.isLiked())
     {
-        likeApi.deleteCardLike(card.id).
+        api.deleteCardLike(card.id).
         then(dataCard => {card.setLikes(dataCard.likes)})
+        .catch((err) => {
+            console.log(err); 
+          });
     }
     else{
-        likeApi.setCardLike(card.id).
+        api.setCardLike(card.id).
         then(dataCard => {card.setLikes(dataCard.likes)})
+        .catch((err) => {
+            console.log(err); 
+          });
     }
-    console.log(card)
+    
 }
 
 function createCard(data) {
@@ -135,9 +114,13 @@ function createCard(data) {
 
 
 function saveNewCard(data) {
-    cardApi.addCard(data).
-    then(data => {photoGrid.prepend(createCard(data))}).
-    finally(() => {popupAdd.close()})
+    api.addCard(data).
+    then(data => {defaultCards.setItem(createCard(data))})
+    .catch((err) => {
+        console.log(err); 
+      })
+    .then(() => {popupAdd.close()})
+    .finally(() =>popupAdd.turnBackButtonText())
 };
 
 
@@ -147,11 +130,15 @@ function setUserInfo (data){
 }
 
 function updateUserInfo(data){
-    userApi.updateUserInfo(data).
+    api.updateUserInfo(data).
     then(data =>{
         setUserInfo(data)
-}).
-finally(() => {popupEdit.close()})
+})
+.catch((err) => {
+    console.log(err); 
+  })
+.then(() => {popupEdit.close()})
+.finally(() =>popupEdit.turnBackButtonText())
 }
 
 function updateFormValue(){
@@ -166,11 +153,15 @@ function setAvatar(data){
 }
 
 function updateAvatar(data){
-    avatarApi.updateAvatar(data).
+    api.updateAvatar(data).
     then(data =>{
         setAvatar(data)
-}).
-finally(() => {popupEditAvatar.close()})
+})
+.catch((err) => {
+    console.log(err); 
+  })
+.then(() => {popupEditAvatar.close()})
+.finally(() =>popupEditAvatar.turnBackButtonText())
 }
 
 function setInputValue({username, job}){
@@ -183,7 +174,6 @@ function setInputValue({username, job}){
 const popupEdit = new PopupWithForm('.popup_type_edit-profile', updateUserInfo);
 
 editButton.addEventListener('click', () =>{
-    popupEdit.turnBackButtonText();
     setInputValue(updateFormValue())
     popupEdit.open();
     validationFormEdit.resetValidation()
@@ -194,7 +184,6 @@ popupEdit.setEventListeners();
 const popupAdd = new PopupWithForm('.popup_type_add-card', saveNewCard);
 
 addButton.addEventListener('click', () =>{
-    popupEdit.turnBackButtonText();
     popupAdd.open();
     validationFormAdd.resetValidation()
 });
@@ -204,7 +193,6 @@ popupAdd.setEventListeners();
 const popupEditAvatar = new PopupWithForm('.popup_type_edit-avatar', updateAvatar);
 
 avatarEditButton.addEventListener('click', () =>{
-    popupEdit.turnBackButtonText();
     popupEditAvatar.open();
     validationFormEditAvatar.resetValidation();
 });
